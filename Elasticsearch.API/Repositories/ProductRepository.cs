@@ -57,13 +57,16 @@ namespace Elasticsearch.API.Repositories
         }
 
 
-        //public async Task<bool> UpdateSynch(ProductUpdateDto updateProduct)
-        //{
-        //    var response = await _client.UpdateAsync<Product, ProductUpdateDto>(indexName, updateProduct.Id, x => x.Doc(updateProduct));
+        public async Task<bool> UpdateSynch(ProductUpdateDto updateProduct)
+        {
+            //var response = await _client.UpdateAsync<Product, ProductUpdateDto>(indexName, updateProduct.Id, x => x.Doc(updateProduct));
+            //return response.IsSuccess();
 
-        //    return response.IsSuccess();
+            var response = await _client.UpdateAsync<Product, ProductUpdateDto>(updateProduct.Id, x => x.Index(indexName).Doc(updateProduct));
 
-        //}
+            return response.IsValid;
+
+        }
         /// <summary>
         /// Hata yönetimi için bu method ele alınmıştır.
         /// </summary>
@@ -71,7 +74,6 @@ namespace Elasticsearch.API.Repositories
         /// <returns></returns>
         public async Task<DeleteResponse> DeleteAsync(string id)
         {
-
             var response = await _client.DeleteAsync<Product>(id, x => x.Index(indexName));
             return response;
         }

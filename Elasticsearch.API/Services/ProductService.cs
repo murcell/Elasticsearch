@@ -63,17 +63,29 @@ namespace Elasticsearch.API.Services
             return ResponseDto<ProductDto>.Success(productDto, HttpStatusCode.OK);
         }
 
-        //public async Task<ResponseDto<bool>> UpdateAsync(ProductUpdateDto updateProduct)
-        //{
-        //    var isSuccess = await _productRepository.UpdateSynch(updateProduct);
+        public async Task<ResponseDto<bool>> UpdateAsync(ProductUpdateDto updateProduct)
+        {
+            var isSuccess = await _productRepository.UpdateSynch(updateProduct);
 
-        //    if (!isSuccess)
-        //    {
-        //        return ResponseDto<bool>.Fail(new List<string> { "update esnasında bir hata meydana geldi." }, System.Net.HttpStatusCode.InternalServerError);
-        //    }
+            if (!isSuccess)
+            {
+                return ResponseDto<bool>.Fail(new List<string> { "update esnasında bir hata meydana geldi." }, System.Net.HttpStatusCode.InternalServerError);
+            }
 
-        //    return ResponseDto<bool>.Success(true, HttpStatusCode.NoContent);
-        //}
+            return ResponseDto<bool>.Success(true, HttpStatusCode.NoContent);
+        }
+
+        public async Task<ResponseDto<bool>> DeleteAsync(string id)
+        {
+            var isSuccess = await _productRepository.DeleteAsync(id);
+
+            if (!isSuccess.IsValid)
+            {
+                return ResponseDto<bool>.Fail(new List<string>() { "Silme esnasında bir hata meydana geldi."}, HttpStatusCode.InternalServerError);
+            }
+
+            return ResponseDto<bool>.Success(true, HttpStatusCode.NoContent);
+        }
 
         //public async Task<ResponseDto<bool>> DeleteAsync(string id)
         //{
