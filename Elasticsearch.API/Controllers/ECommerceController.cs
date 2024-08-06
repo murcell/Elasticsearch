@@ -52,5 +52,11 @@ namespace Elasticsearch.API.Controllers
         {
             return Ok(await _eCommerceRepository.PaginationQueryAsync(page,pageSize));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> WildCardQuery(string customerFullName)
+        {
+            return Ok(await _eCommerceRepository.WildCardQueryAsync(customerFullName));
+        }
     }
 }
