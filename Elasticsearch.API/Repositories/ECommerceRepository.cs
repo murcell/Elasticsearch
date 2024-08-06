@@ -2,6 +2,7 @@
 using Elastic.Clients.Elasticsearch.Core.TermVectors;
 using Elastic.Clients.Elasticsearch.QueryDsl;
 using Elasticsearch.API.Models.ECommerceModel;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using System.Collections.Immutable;
 
 namespace Elasticsearch.API.Repositories
@@ -134,7 +135,15 @@ namespace Elasticsearch.API.Repositories
             return result.Documents.ToImmutableList();
         }
 
+        public async Task<ImmutableList<ECommerce>> FuzzyQueryAsync(string customerFirstName)
+        {
+            var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
+            .Query(q => q.Fuzzy(fz=>fz.Field(f=>f.CustomerFirstName.Suffix("keyword")).Value(customerFirstName).Fuzziness(new Fuzziness(2)))));
 
+            foreach (var hit in result.Hits) hit.Source!.Id = hit.Id!;
+
+            return result.Documents.ToImmutableList();
+        }
     }
 
 }

@@ -58,5 +58,11 @@ namespace Elasticsearch.API.Controllers
         {
             return Ok(await _eCommerceRepository.WildCardQueryAsync(customerFullName));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FuzzyQuery(string customerFirstName)
+        {
+            return Ok(await _eCommerceRepository.FuzzyQueryAsync(customerFirstName));
+        }
     }
 }
