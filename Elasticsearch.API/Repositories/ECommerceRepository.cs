@@ -49,6 +49,7 @@ namespace Elasticsearch.API.Repositories
             //var result = await _client.SearchAsync<ECommerce>(s=>s.Index(indexName).Query(termsQuery));
 
             var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
+            .Size(100)
             .Query(q=>q
             .Terms(t=>t
             .Field(f=>f.CustomerFirstName.Suffix("keyword")).Term(new TermsQueryField(terms.AsReadOnly())))));
@@ -57,6 +58,7 @@ namespace Elasticsearch.API.Repositories
 
             return result.Documents.ToImmutableList();
         }
+
 
     }
     
