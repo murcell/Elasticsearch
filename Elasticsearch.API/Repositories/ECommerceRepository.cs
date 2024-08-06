@@ -133,6 +133,8 @@ namespace Elasticsearch.API.Repositories
 
             return result.Documents.ToImmutableList();
         }
+
+
     }
 
 }
