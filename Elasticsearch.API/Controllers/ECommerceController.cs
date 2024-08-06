@@ -64,5 +64,11 @@ namespace Elasticsearch.API.Controllers
         {
             return Ok(await _eCommerceRepository.FuzzyQueryAsync(customerFirstName));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> FuzzyAndOrderingQuery(string customerFirstName)
+        {
+            return Ok(await _eCommerceRepository.FuzzyAndOrderingQueryAsync(customerFirstName));
+        }
     }
 }

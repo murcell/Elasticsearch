@@ -144,6 +144,20 @@ namespace Elasticsearch.API.Repositories
 
             return result.Documents.ToImmutableList();
         }
+
+        public async Task<ImmutableList<ECommerce>> FuzzyAndOrderingQueryAsync(string customerFirstName)
+        {
+            var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
+                .Query(q => q
+                    .Fuzzy(fz => fz
+                        .Field(f => f.CustomerFirstName.Suffix("keyword")).Value(customerFirstName)
+                            .Fuzziness(new Fuzziness(2))))
+                                .Sort(sort=>sort.Field(f=>f.TaxfulTotalPrice,new FieldSort() { Order = SortOrder.Desc })));
+
+            foreach (var hit in result.Hits) hit.Source!.Id = hit.Id!;
+
+            return result.Documents.ToImmutableList();
+        }
     }
 
 }
