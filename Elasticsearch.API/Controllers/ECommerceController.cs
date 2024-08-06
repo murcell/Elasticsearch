@@ -20,19 +20,37 @@ namespace Elasticsearch.API.Controllers
         [HttpGet]
         public async Task<IActionResult> TermQuery(string customerFirstName) 
         {
-            return Ok(await _eCommerceRepository.TermQuery(customerFirstName));
+            return Ok(await _eCommerceRepository.TermQueryAsync(customerFirstName));
         }
 
         [HttpPost]
         public async Task<IActionResult> TermsQuery([FromBody]List<string> customerFirstNameList)
         {
-            return Ok(await _eCommerceRepository.TermsQuery(customerFirstNameList));
+            return Ok(await _eCommerceRepository.TermsQueryAsync(customerFirstNameList));
         }
 
         [HttpGet]
         public async Task<IActionResult> PrefixQuery(string customerFullName)
         {
-            return Ok(await _eCommerceRepository.PrefixQuery(customerFullName));
+            return Ok(await _eCommerceRepository.PrefixQueryAsync(customerFullName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RangeQuery(double fromPrize, double toPrice)
+        {
+            return Ok(await _eCommerceRepository.RangeQueryAsync(fromPrize, toPrice));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MatchAllQuery()
+        {
+            return Ok(await _eCommerceRepository.MatchAllQueryAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PaginationQuery(int page=1, int pageSize=3)
+        {
+            return Ok(await _eCommerceRepository.PaginationQueryAsync(page,pageSize));
         }
     }
 }

@@ -75,6 +75,50 @@ namespace Elasticsearch.API.Repositories
 
             return result.Documents.ToImmutableList();
         }
+
+        public async Task<ImmutableList<ECommerce>> RangeQueryAsync(double fromPrize, double toPrice)
+        {
+            var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
+            .Size(100)
+            .Query(q => q
+                .Range(r=>r
+                    .NumberRange(nr=>nr
+                        .Field(f=>f.TaxfulTotalPrice).Gte(fromPrize).Lte(toPrice)))
+            ));
+
+            foreach (var hit in result.Hits) hit.Source!.Id = hit.Id!;
+
+            return result.Documents.ToImmutableList();
+        }
+
+        public async Task<ImmutableList<ECommerce>> MatchAllQueryAsync()
+        {
+            var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
+            .Size(100)
+            .Query(q => q.MatchAll(new MatchAllQuery())));
+
+            foreach (var hit in result.Hits) hit.Source!.Id = hit.Id!;
+
+            return result.Documents.ToImmutableList();
+        }
+
+        public async Task<ImmutableList<ECommerce>> PaginationQueryAsync(int page, int pageSize)
+        {
+            // page=1 pageSize=0 => 1-10
+            // page=2 pageSize=10 => 11-20
+            // page=3 pageSize=10 => 21-30
+
+            var pageFrom = (page - 1) * pageSize;
+
+            var result = await _client.SearchAsync<ECommerce>(s => s
+                .Index(indexName)
+                .Size(pageSize).From(pageFrom)
+                .Query(q => q.MatchAll(new MatchAllQuery())));
+
+            foreach (var hit in result.Hits) hit.Source!.Id = hit.Id!;
+
+            return result.Documents.ToImmutableList();
+        }
     }
-    
+
 }
