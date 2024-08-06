@@ -70,5 +70,49 @@ namespace Elasticsearch.API.Controllers
         {
             return Ok(await _eCommerceRepository.FuzzyAndOrderingQueryAsync(customerFirstName));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> MatchQueryFullText(string categoryName)
+        {
+            return Ok(await _eCommerceRepository.MatchQueryFullTextAsync(categoryName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MatchBoolPrefixQuery(string customerFullName)
+        {
+            return Ok(await _eCommerceRepository.MatchBoolPrefixAsync(customerFullName));
+        }
+
+        /// <summary>
+        /// aranan kelimeler öbek olarak aranır. 
+        /// Örn. Mehmet Ali Yılmaz-Mehmet Ali Erbil => Mehmet Ali diye aradığımızda içinde
+        /// Mehmet Ali olan her şey gelir. Önde ve arkada ne olduğu önemli değildir
+        /// </summary>
+        /// <param name="customerFullName"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> MatchPhraseQuery(string customerFullName)
+        {
+            return Ok(await _eCommerceRepository.MatchPhraseQueryAsync(customerFullName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CompoundQueryExampleOne(string cityName, double taxfulTotalPrize, string categoryName, string manufacturer)
+        {
+            return Ok(await _eCommerceRepository.CompoundQueryExampleOneAsync(cityName,taxfulTotalPrize,categoryName,manufacturer));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CompoundQueryExampleTwo(string customerFullName)
+        {
+            return Ok(await _eCommerceRepository.CompoundQueryExampleTwoAsync(customerFullName));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> MultiMatchQuery(string name)
+        {
+            return Ok(await _eCommerceRepository.MultiMatchQueryAsync(name));
+        }
     }
 }
