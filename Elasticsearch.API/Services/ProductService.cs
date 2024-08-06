@@ -1,4 +1,5 @@
-﻿using Elasticsearch.API.DTOs;
+﻿using Elastic.Clients.Elasticsearch;
+using Elasticsearch.API.DTOs;
 using Elasticsearch.API.Repositories;
 //using Nest;
 using System.Net;
@@ -89,7 +90,7 @@ namespace Elasticsearch.API.Services
             {
                 deleteResponse.TryGetOriginalException(out Exception? exception);
 
-                _logger.LogError(exception, deleteResponse.ElasticsearchServerError.Error.ToString());
+                _logger.LogError(exception, deleteResponse.ElasticsearchServerError?.Error.ToString());
 
                 return ResponseDto<bool>.Fail(new List<string> { "silme esnasında bir hata meydana geldi." }, System.Net.HttpStatusCode.InternalServerError);
 

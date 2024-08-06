@@ -1,14 +1,15 @@
-﻿using Elasticsearch.API.Models.ECommerceModel;
-using Nest;
+﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.QueryDsl;
+using Elasticsearch.API.Models.ECommerceModel;
 using System.Collections.Immutable;
 
 namespace Elasticsearch.API.Repositories
 {
     public class ECommerceRepository
     {
-        private readonly ElasticClient _client;
+        private readonly ElasticsearchClient _client;
 
-        public ECommerceRepository(ElasticClient client)
+        public ECommerceRepository(ElasticsearchClient client)
         {
             _client = client;
         }
@@ -110,7 +111,7 @@ namespace Elasticsearch.API.Repositories
 
             var result = await _client.SearchAsync<ECommerce>(s => s.Index(indexName)
                 .Size(pageSize).From(pageFrom)
-                .Query(q => q.MatchAll()));
+                .Query(q => q.MatchAll(new MatchAllQuery())));
 
             foreach (var hit in result.Hits) hit.Source.Id = hit.Id;
             return result.Documents.ToImmutableList();
