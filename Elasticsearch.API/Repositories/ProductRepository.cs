@@ -9,7 +9,7 @@ namespace Elasticsearch.API.Repositories
     public class ProductRepository
     {
         private readonly ElasticClient _client;
-        private const string indexName = "products11";
+        private const string indexName = "products112";
         public ProductRepository(ElasticClient client)
         {
             _client = client;
