@@ -28,7 +28,7 @@ namespace Elasticsearch.API.Models.ECommerceModel
         [JsonPropertyName("order_date")]
         public DateTime OrderDate { get; set; }
         [JsonPropertyName("products")]
-        public Product[] Products { get; set; }
+        public Product[] Products { get; set; } // burayı nullable yapıp test et
     }
 
     public class Product
