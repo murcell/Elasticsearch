@@ -256,11 +256,11 @@ namespace Elasticsearch.API.Repositories
                     .Size(50)
                         .Query(q => q
                             .Bool(b => b
-                                .Should(m => m
-                                    .Match(mt => mt
+                                .Should(
+                                m => m.Match(mt => mt
                                         .Field(f => f.CustomerFullName)
-                                            .Query(customerFullName))
-                                    .Prefix(p => p
+                                        .Query(customerFullName)),
+                                m=>m.Prefix(p => p
                                         .Field(f => f.CustomerFullName
                                             .Suffix("keyword"))
                                         .Value(customerFullName))))));

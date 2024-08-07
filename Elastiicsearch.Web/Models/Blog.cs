@@ -22,6 +22,5 @@ namespace Elastiicsearch.Web.Models
         [JsonPropertyName("created")]
         public DateTime Created { get; set; }
 
-
     }
 }
